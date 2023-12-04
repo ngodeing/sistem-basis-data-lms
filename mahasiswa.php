@@ -2,8 +2,8 @@
 require 'koneksi.php';
 
 // Mengecek apakah parameter nama_mhs ada di URL
-if (isset($_GET['nama_mhs'])) {
-    $namaMahasiswa = $_GET['nama_mhs'];
+if (isset($_GET['nama_user'])) {
+    $namaMahasiswa = $_GET['nama_user'];
 
     // Mengambil NIM berdasarkan nama mahasiswa
     $queryNIM = "SELECT NIM FROM mahasiswa WHERE nama_mhs = '$namaMahasiswa'";

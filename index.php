@@ -7,9 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <style>
-</style>
-<body>
-<style>
     body {
         background-image: url('./unnes.jpg');
         background-size: cover;
@@ -25,6 +22,7 @@
         background: #ededed;
     }
 </style>
+<body>
 <?php
 require 'koneksi.php';
 
@@ -33,23 +31,37 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $role = isset($_POST['role']) ? $_POST['role'] : '';
 
-    $query = "SELECT * FROM mahasiswa WHERE email = '$email' AND password_mahasiswa = '$password'";
-    $result = $conn->query($query);
-
-    if ($result->num_rows > 0) {
-        $mahasiswa = $result->fetch_assoc();
-        $namaMahasiswa = $mahasiswa['nama_mhs'];
-        header('Location: mahasiswa.php?nama_mhs='.$namaMahasiswa.'');
-        exit();
+    if (empty($role)) {
+        $message = 'Pilih peran (Mahasiswa/Dosen).';
     } else {
-        $message = 'Email atau password salah.';
+        $query = '';
+        $redirectPage = '';
+
+        if ($role == 'mahasiswa') {
+            $query = "SELECT * FROM mahasiswa WHERE email = '$email' AND password_mahasiswa = '$password'";
+            $redirectPage = 'mahasiswa.php';
+        } elseif ($role == 'dosen') {
+            $query = "SELECT * FROM dosen WHERE email_dosen = '$email' AND password_dosen = '$password'";
+            $redirectPage = 'dosen.php';
+        }
+
+        $result = $conn->query($query);
+
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            $namaUser = ($role == 'mahasiswa') ? $user['nama_mhs'] : $user['nama_dosen'];
+            header("Location: $redirectPage?nama_user=$namaUser");
+            exit();
+        } else {
+            $message = 'Email atau password salah.';
+        }
     }
 } else {
     $message = '';
 }
 ?>
-
 
 <div class="container mt-5">
     <div class="flex justify-center">
@@ -58,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class=" text-slate-300 text-center py-2 mb-4 rounded-md">
                     <h2 class="text-lg font-semibold text-black">Login</h2>
                 </div>
-                <form action="index.php" method="POST">
+                <form action="index.php" method="POST" role="form">
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
                         <input type="email" name="email" id="email" class="w-full mt-1 p-2 border-2 border-slate-400 rounded-md" required>
@@ -66,6 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
                         <input type="password" name="password" id="password" class="w-full mt-1 p-2  border-2 border-slate-400 rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-600">Role</label>
+                        <input type="radio" name="role" value="mahasiswa" checked> Mahasiswa
+                        <input type="radio" name="role" value="dosen"> Dosen
                     </div>
                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Login</button>
                     <?php if (!empty($message)): ?>
