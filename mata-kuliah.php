@@ -22,7 +22,7 @@
         // Periksa apakah mata kuliah dengan kode_mk tersebut ada
         if (mysqli_num_rows($result_mata_kuliah) > 0) {
             $data_mata_kuliah = mysqli_fetch_assoc($result_mata_kuliah);
-            $namaMahasiswa = isset($_GET['nama_mhs']) ? $_GET['nama_mhs'] : 'Nama Mahasiswa';
+            $namaMahasiswa = isset($_GET['nama_user']) ? $_GET['nama_user'] : 'Nama User';
     ?>
             <div class="p-3 bg-slate-700 text-slate-100 text-2xl flex w-full justify-between">
                 <h2 class="font-bold text-start ml-3">Learning Management System</h2>
@@ -46,9 +46,11 @@
                         <?php
                         while ($data_materi = mysqli_fetch_assoc($result_materi)) {
                             echo "<li class='mb-1'>".$data_materi['nama_materi']."</li>";
+                            echo "<li class='mb-1'>".$data_materi['file_materi']."</li>";
                         }
                         ?>
                     </ul>
+                    <a href="addMateri.php?kode_mk=<?php echo $kode_mk; ?>" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-3 inline-block hover:bg-blue-700 transition duration-300 ease-in-out">Tambah Materi</a>
                 </div>
 
                 <?php

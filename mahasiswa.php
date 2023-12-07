@@ -48,7 +48,7 @@ if (isset($_GET['nama_user'])) {
                     echo "<div class='bg-white p-4 rounded-md shadow-lg w-[300px] flex flex-col'>";
                     echo "<h5 class='text-xl font-bold mb-2'>".$data['nama_mk']."</h5>";
                     echo "<p class='text-gray-600 mb-5'>(".$data['kode_mk'].")</p>";
-                    echo "<a href='mata-kuliah.php?kode_mk=".$data['kode_mk']."&nama_mhs=".urlencode($namaMahasiswa)."' class='bg-blue-500 text-white py-2 px-4 mt-auto rounded-md content-end'>Lihat Detail</a>";
+                    echo "<a href='mata-kuliah.php?kode_mk=".$data['kode_mk']."&nama_user=".urlencode($namaMahasiswa)."' class='bg-blue-500 text-white py-2 px-4 mt-auto rounded-md content-end'>Lihat Detail</a>";
                     echo "</div>";
                     echo "</div>";
                 }
