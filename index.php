@@ -8,7 +8,7 @@
 </head>
 <style>
     body {
-        background-image: url('./unnes.jpg');
+        background-image: url('./img/unnes.jpg');
         background-size: cover;
         background-position: center;
         height: 100vh;
@@ -41,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($role == 'mahasiswa') {
             $query = "SELECT * FROM mahasiswa WHERE email = '$email' AND password_mahasiswa = '$password'";
-            $redirectPage = 'mahasiswa.php';
+            $redirectPage = 'dashboard.php';
         } elseif ($role == 'dosen') {
             $query = "SELECT * FROM dosen WHERE email_dosen = '$email' AND password_dosen = '$password'";
-            $redirectPage = 'dosen.php';
+            $redirectPage = 'matakuliah.php';
         }
 
         $result = $conn->query($query);
